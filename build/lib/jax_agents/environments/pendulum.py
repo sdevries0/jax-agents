@@ -25,7 +25,7 @@
 
 from jax import random
 import jax.numpy as jnp
-#from jax.ops import index_update
+from jax.ops import index_update
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
 from jax_agents.common.runge_kutta import runge_kutta
@@ -83,8 +83,7 @@ class PendulumEnv():
         next_state = runge_kutta(self.pendulum_dynamics, state,
                                  action, self.dt)
         # wrap angle in [0, 2pi]
-        #next_state = index_update(next_state, 0, next_state[0] % (2*jnp.pi))
-        next_state = next_state.at[0].set(next_state[0] % (2*jnp.pi))
+        next_state = index_update(next_state, 0, next_state[0] % (2*jnp.pi))
         return next_state
 
     def reward_func(self, state, action, next_state):
